@@ -184,6 +184,18 @@ template<class T>
       delete(tail);
       tail=aux;
     }
+    else if(index>size/2){
+      refer = tail;
+      for(int i=0;i<size-index;i++){
+        refer=refer->previous;
+      }
+      refer=refer->previous;
+      aux=refer->next;
+      refer->next=aux->next;
+      aux->next->previous=aux->previous;
+      val=aux->value;
+      delete(aux);
+    }
     else{
       refer = head;
       i = 0;
@@ -199,6 +211,5 @@ template<class T>
     size=size-1;
     return val;
   }
-
 
 #endif
