@@ -148,12 +148,21 @@ int DList<T>::search(T valor){
 template <class T>
 void DList<T>::update(int index, T valor){
   DLink<T> *temp;
-  temp=head;
+  if(index<=size/2+1){
+     temp=head;
   for(int i=0;i<index;i++){
     temp=temp->next;
   }
+  }
+  else{
+     temp=tail;
+  for(int i=0;i<size-index;i++){
+    temp=temp->previous;
+  }
+  }
   temp->value=valor;
 }
+
 
 
 template<class T>
