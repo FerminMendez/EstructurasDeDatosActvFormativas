@@ -136,18 +136,17 @@ template <class T>
 void Heap<T>::heapify(unsigned int pos) {//Por completar
     int le=left(pos);
     int ri=right(pos);
-	int max=pos;
-    if(data[max]<data[le] && le<count){
-		max=le;
+	int min=pos;
+    if(data[min]>data[le] && le<count){
+		min=le;
     }
-    if(data[pos]>data[ri] && ri<count){
- 
-		max=ri;
+    if(data[min]>data[ri] && ri<count){
+		min=ri;
     }
 
-	if (max != pos) {
-		swap(pos, max);
-		heapify(max);
+	if (min != pos) {
+		swap(pos, min);
+		heapify(min);
 	}
 	
 }
@@ -169,22 +168,3 @@ std::string Heap<T>::toString() const {
 
 
 
-
-
-
-
-
-
-
-
-template <class T>
-std::string Heap<T>::toString() const {
-	std::stringstream aux;
-	aux << "[";	for (unsigned int i = 0; i < count; i++) {
-		if (i != 0) {
-			aux << " ";
-		} aux << data[i];
-	} aux << "]";
-	return aux.str();
-}
-*/
