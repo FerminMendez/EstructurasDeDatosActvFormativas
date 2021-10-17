@@ -51,24 +51,23 @@ Heap<T>::~Heap() {
 }
 
 //Tarea
+//Tarea
 template <class T>
 void Heap<T>::push(T val) {
-	data[count]=val;
-	int pos=count;
-	int p=parent(pos);
-	while (parent!=pos && data[parent]<data[pos]){
-		swap(p,parent);
-		pos=p;
-		p=parent(pos);
-	}
+ unsigned int pos = count;
 	count++;
+	while (pos > 0 && val < data[parent(pos)]) {
+		data[pos] = data[parent(pos)];
+		pos = parent(pos);
+	}
+	data[pos] = val;
 }
 
 template <class T>
 T Heap<T>::pop(){
     T val=data[0];
-    swap(count,0);
     count--;
+    swap(count,0);
     heapify(0);
     return val;
 }
@@ -80,6 +79,7 @@ T Heap<T>::top(){
 }
 
 
+
 template <class T>
 bool Heap<T>::empty() const {
 	if(count==0){
@@ -88,10 +88,14 @@ bool Heap<T>::empty() const {
 	return false;
 }
 
+
+
 template <class T>
 int Heap<T>:: size(){
-	return count+1;
+	return count;
 }
+
+
 
 
 
@@ -103,6 +107,8 @@ bool Heap<T>::full() const {
 	}
 	return false;
 }
+
+
 
 template <class T>
 unsigned int Heap<T>::parent(unsigned int pos) const {
@@ -130,17 +136,50 @@ template <class T>
 void Heap<T>::heapify(unsigned int pos) {//Por completar
     int le=left(pos);
     int ri=right(pos);
-    if(data[pos]>data(le) && le<=count){
+    if(data[pos]>data[le] && le<count){
         swap(le,pos);
         heapify(le);
     }
-    if(data[pos]>data(ri) && ri<=count){
+    if(data[pos]>data[ri] && ri<count){
         swap(ri,pos);
         heapify(ri);
     }
 	
 }
 
-
-#endif /* HASH_H_ */
+template <class T>
+std::string Heap<T>::toString() const {
+	std::stringstream aux;
+	aux << "[";	for (unsigned int i = 0; i < count; i++) {
+		if (i != 0) {
+			aux << " ";
+		} aux << data[i];
+	} aux << "]";
+	return aux.str();
+}
+#endif 
 	
+/*
+
+
+
+
+
+
+
+
+
+
+
+
+template <class T>
+std::string Heap<T>::toString() const {
+	std::stringstream aux;
+	aux << "[";	for (unsigned int i = 0; i < count; i++) {
+		if (i != 0) {
+			aux << " ";
+		} aux << data[i];
+	} aux << "]";
+	return aux.str();
+}
+*/
