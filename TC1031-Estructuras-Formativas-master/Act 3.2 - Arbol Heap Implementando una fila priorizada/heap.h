@@ -136,14 +136,19 @@ template <class T>
 void Heap<T>::heapify(unsigned int pos) {//Por completar
     int le=left(pos);
     int ri=right(pos);
-    if(data[pos]>data[le] && le<count){
-        swap(le,pos);
-        heapify(le);
+	int max=pos;
+    if(data[max]<data[le] && le<count){
+		max=le;
     }
     if(data[pos]>data[ri] && ri<count){
-        swap(ri,pos);
-        heapify(ri);
+ 
+		max=ri;
     }
+
+	if (max != pos) {
+		swap(pos, max);
+		heapify(max);
+	}
 	
 }
 
