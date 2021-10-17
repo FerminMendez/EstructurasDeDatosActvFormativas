@@ -159,7 +159,7 @@ std::string Heap<T>::toString() const {
 }
 #endif 
 	
-/*
+
 
 
 
