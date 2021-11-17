@@ -59,7 +59,6 @@ int main(int argc, char* argv[]) {
     cout << "\n" <<"6.- esperada 1 " << star_ans << "\n esperada 2 " << star_ans_2 <<"\n programa " << star.DFS(0,3) << "\n";
     cout <<	( (!star_ans.compare(star.DFS(0,3)) || !star_ans_2.compare(star.DFS(0,3)))? "success\n" : "fail\n");
 
-
     //g.BFS(0,3);
     g_ans = "visited: 0 1 4 2 3 path: 0 1 3";
     g_ans_2 = "visited: 0 4 1 5 3 path: 0 1 3";
