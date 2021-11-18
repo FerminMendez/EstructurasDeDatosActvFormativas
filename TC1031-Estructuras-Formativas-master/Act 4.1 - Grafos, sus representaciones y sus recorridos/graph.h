@@ -45,40 +45,36 @@ public:
 		void addEdgeAdjList(int, int);//Auxiliar
 		string printAdjMat();
 		string printAdjMat_clean();
-
 		string printAdjList();//Imprimer la lista de adjacencia
-		string print_visited(list<int>);
-		string print_path(vector<vector<int>>&,int ,int);
-
-		bool contains(list<int>, int);
-		void sortAdjList();
 
 		//Funciones de recorrido
 		string DFS(int,int);//Con Stack
-		void DFSaux(int,int,stack<int>&,list<int>&,vector<vector<int>>&);//
+		void DFSaux(int,int,stack<int>&,list<int>&,vector<vector<int>>&);
+		bool contains(list<int>, int);
+		string print_path(vector<vector <int>>&,int,int);
+		string print_visited(list<int>);
 
 		string BFS(int,int);// Con queue
+		void BFSaux(int,int,queue<int>&,list<int>&,vector<vector<int>>&);
 };
 
 //Funciones de recorrido
 	string Graph::DFS(int init,int final){
-		string out;					//String de salida
+		string s;
 		stack<int> st;				
 		list<int> visited;			//Recorrido del DFS
 		vector<vector<int>> caminos(nodes,vector<int>(1, -1));
 		st.push(init);
 		DFSaux(init, final, st, visited, caminos);
-		out=print_visited(visited)+print_path(caminos,init,final);
-		return out;
+		s=print_visited(visited)+print_path(caminos,init,final);
+		return s;
 	}
 //Auxiliares de DFS
 	//print
 void Graph::DFSaux(int current,int goal,stack<int> &st,list<int> &visited,vector<vector<int>> &paths){//
 	if(current == goal){
-
-		return;
 	} else if(st.empty()){
-		cout << " node not found";
+		cout << "Nodo no encontrado";
 	}	
 	else {//Si no hemos llegado a la meta, sacamos el top, metemos los hijos
 		current = st.top();
@@ -98,43 +94,76 @@ void Graph::DFSaux(int current,int goal,stack<int> &st,list<int> &visited,vector
 bool Graph::contains(list<int> ls, int node){//Verifica si el nodo está en visitados
 		list<int>::iterator it;
 		it = find(ls.begin(), ls.end(), node);
-		if(it != ls.end())
+		if(it != ls.end()){
 			return true;
-		else
+		}
+		else{
 			return false;
+		}
 }
 
 string Graph::print_visited(list<int> q){
-	string s="";
+	string s;
 	s=s+"visited: ";
 	while (!q.empty()){
-    s=s+to_string(q.front()) + " ";
+    s=s+to_string(q.front())+ " ";
     q.pop_front();
-  return s;
+	}
+	return s;
 }
 
+
 string Graph::print_path(vector<vector <int>> &path, int start, int goal){
-	string s;
+	stringstream s;
 	int node =  path[goal][0];
 	stack<int> reverse;
 	reverse.push(goal);
-	s=s+"path: ";
 	while (node != start) {
 		reverse.push(node);
     node = path[node][0];
   }
 	reverse.push(start);
 	while (!reverse.empty()) {
-		s=s+to_string(reverse.top()) +
-		 " ";
+		if(s.tellp() != 0){
+			s<<" ";
+		}
+		s<<to_string(reverse.top());
 		reverse.pop();
   }
-  return s;
+  return "path: "+s.str();
 }
-//
-	string Graph::BFS(int a,int b){
-		return "";
+
+
+string Graph::BFS(int a,int b){
+	string s;
+	queue<int> q;
+	list<int> visited;
+	vector <vector<int>> paths(nodes, vector<int>(0));
+	q.push(a);
+	BFSaux(a, b, q, visited, paths);
+	s=print_visited(visited)+print_path(paths,a,b);
+	return s;
+}
+
+void Graph::BFSaux(int current,int goal,queue<int> &q,list<int> &visited,vector<vector<int>> &paths){//
+	if(current == goal){
+	} else if(q.empty()){
+		cout << "Nodo no encontrado";
+	}	
+	else {//Si no hemos llegado a la meta, sacamos el top, metemos los hijos
+		current = q.front();
+		q.pop();
+		visited.push_back(current);
+		for(int  i = 0; i < adjList[current].size(); i++){
+			//Metemos los hijos de la lista de adyacencia
+			if(!contains(visited, adjList[current][i])){//Siempre y cuando no se hayan visitado ya
+				q.push(adjList[current][i]);
+				paths[adjList[current][i]].push_back(current);
+			}
+		}
+		BFSaux(current, goal, q, visited, paths);
 	}
+}
 
 //Primera función de tarea. Cargar la matriz de adyacencia desde el .txt
 
